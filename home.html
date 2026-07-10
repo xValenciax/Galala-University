@@ -87,6 +87,14 @@
       background-color: rgba(255, 255, 255, 0.2);
     }
 
+    .menu-toggle {
+      display: none;
+    }
+
+    .menu-overlay {
+      display: none;
+    }
+
     /* Main Split Layout */
     .main-layout {
       display: flex;
@@ -362,6 +370,14 @@
         overflow: auto;
       }
 
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
       .main-layout {
         flex-direction: column;
         height: auto;
@@ -369,9 +385,42 @@
       }
 
       .sidebar {
-        width: 100%;
-        border-left: none;
-        border-bottom: 1px solid #dcdcdc;
+        position: fixed;
+        top: 50px;
+        right: 0;
+        bottom: 0;
+        width: 290px;
+        max-width: 85vw;
+        z-index: 200;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        border-left: 1px solid #dcdcdc;
+        border-bottom: none;
+        overflow-y: auto;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.12);
+      }
+
+      body.menu-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .menu-overlay {
+        display: block;
+        position: fixed;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 150;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      body.menu-open .menu-overlay {
+        opacity: 1;
+        visibility: visible;
       }
 
       .splitter-handle {
@@ -395,6 +444,7 @@
       .content-area {
         padding: 16px;
         overflow-y: visible;
+        width: 100%;
       }
 
       .main-title {
@@ -408,7 +458,7 @@
 
       .top-center-title {
         font-size: 13px;
-        max-width: 42%;
+        max-width: 38%;
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -424,6 +474,10 @@
 
       .top-left-icons {
         gap: 10px;
+      }
+
+      .top-right-badge {
+        gap: 8px;
       }
 
       .grades-table {
@@ -453,9 +507,18 @@
         height: 46px;
       }
 
+      .sidebar,
+      .menu-overlay {
+        top: 46px;
+      }
+
+      .main-layout {
+        min-height: calc(100vh - 46px);
+      }
+
       .top-center-title {
         font-size: 12px;
-        max-width: 36%;
+        max-width: 32%;
       }
 
       .top-left-icons .icon-btn:nth-child(2),
@@ -545,6 +608,13 @@
 
     <!-- Right Homepage Button -->
     <div class="top-right-badge">
+      <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
       <a href="#" class="student-homepage-btn">
         <span>GU Student Homepage</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -558,7 +628,7 @@
   <div class="main-layout">
     
     <!-- Sidebar (Right side, comes first in RTL layout) -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <!-- Splitter Handle Protruding to the Left -->
       <div class="splitter-handle">
         <div class="splitter-line"></div>
@@ -761,6 +831,48 @@
     </div>
 
   </div>
+
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const menuToggle = document.getElementById('menuToggle');
+      const menuOverlay = document.getElementById('menuOverlay');
+
+      function closeMenu() {
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuOverlay.setAttribute('aria-hidden', 'true');
+      }
+
+      function openMenu() {
+        document.body.classList.add('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        menuOverlay.setAttribute('aria-hidden', 'false');
+      }
+
+      function toggleMenu() {
+        if (document.body.classList.contains('menu-open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      }
+
+      menuToggle.addEventListener('click', toggleMenu);
+      menuOverlay.addEventListener('click', closeMenu);
+
+      document.querySelectorAll('.nav-item').forEach(function (item) {
+        item.addEventListener('click', closeMenu);
+      });
+
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
 
 </body>
 </html>
