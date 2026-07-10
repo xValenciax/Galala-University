@@ -348,6 +348,156 @@
       width: 10%;
       padding-left: 15px;
     }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+      }
+
+      .main-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 50px);
+      }
+
+      .sidebar {
+        width: 100%;
+        border-left: none;
+        border-bottom: 1px solid #dcdcdc;
+      }
+
+      .splitter-handle {
+        display: none;
+      }
+
+      .sidebar-header {
+        padding: 12px 16px;
+      }
+
+      .nav-item {
+        padding: 14px 16px;
+        font-size: 13px;
+      }
+
+      .nav-item span {
+        flex: 1;
+        line-height: 1.4;
+      }
+
+      .content-area {
+        padding: 16px;
+        overflow-y: visible;
+      }
+
+      .main-title {
+        font-size: 18px;
+      }
+
+      .gpa-row {
+        padding: 12px 14px;
+        grid-template-columns: 1fr auto 32px;
+      }
+
+      .top-center-title {
+        font-size: 13px;
+        max-width: 42%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .student-homepage-btn {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+
+      .student-homepage-btn span {
+        display: none;
+      }
+
+      .top-left-icons {
+        gap: 10px;
+      }
+
+      .grades-table {
+        min-width: 520px;
+      }
+
+      .grades-table th,
+      .grades-table td {
+        padding: 12px 8px;
+        font-size: 13px;
+      }
+
+      .col-semester,
+      .col-units,
+      .col-points {
+        padding-right: 8px;
+      }
+
+      .col-chevron {
+        padding-left: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-bar {
+        padding: 0 10px;
+        height: 46px;
+      }
+
+      .top-center-title {
+        font-size: 12px;
+        max-width: 36%;
+      }
+
+      .top-left-icons .icon-btn:nth-child(2),
+      .top-left-icons .icon-btn:nth-child(3) {
+        display: none;
+      }
+
+      .content-area {
+        padding: 12px;
+      }
+
+      .title-container {
+        margin-bottom: 14px;
+      }
+
+      .main-title {
+        font-size: 16px;
+      }
+
+      .gpa-card {
+        margin-bottom: 18px;
+      }
+
+      .gpa-row {
+        grid-template-columns: 1fr 1fr 28px;
+        padding: 10px 12px;
+      }
+
+      .gpa-label,
+      .gpa-value {
+        font-size: 13px;
+      }
+
+      .row-counter {
+        font-size: 13px;
+        margin-top: 16px;
+      }
+
+      .semester-title {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -516,6 +666,7 @@
       <div class="row-counter">7 صف/صفوف</div>
 
       <!-- Grades Table -->
+      <div class="table-wrapper">
       <table class="grades-table">
         <thead>
           <tr>
@@ -606,6 +757,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
 
   </div>
